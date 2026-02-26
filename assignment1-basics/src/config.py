@@ -1,0 +1,67 @@
+from typing import Optional
+from dataclasses import dataclass, field
+
+@dataclass
+class VocabConfig:
+    vocab_size: int = 10000
+    special_tokens: list[str] = field(default_factory=lambda: ["<|endoftext|>"])
+    vocab_path: str = "model/vocab.json"
+    merges_path: str = "model/merges.txt"
+
+@dataclass
+class DataConfig:
+    train_data_path: str = "data/TinyStoriesV2-GPT4-train.txt"
+    train_bin_path: str = "data/TinyStoriesV2-GPT4-train.bin"
+    valid_data_path: str = "data/TinyStoriesV2-GPT4-valid.txt"
+    valid_bin_path: str = "data/TinyStoriesV2-GPT4-valid.bin"
+    batch_size: int = 8
+    eval_batches: int = 10
+    context_length: int = 256
+    np_dtype: str = "uint16"
+
+@dataclass
+class ModelConfig:
+    d_model: int = 512
+    d_ff: int = 1344
+    rope_theta: int = 10000
+    num_layer: int = 4
+    num_heads: int = 16
+
+@dataclass
+class OptimizerConfig:
+    learning_rate: float = 1e-3
+    weight_decay: float = 0.01
+    betas: tuple = field(default_factory=lambda: (0.9, 0.999))
+    eps: float = 1e-8
+    max_learning_rate: float = 1
+    min_learning_rate: float = 1 * 0.1
+    warmup_iters: int = 7
+    cosine_cycle_iters: int = 21
+
+@dataclass
+class TrainingConfig:
+    max_step: int = 5
+    runs_dir: str = "runs"
+    train_log_step: int = 2
+    eval_log_step: int = 2
+    seed: int = 42
+
+@dataclass
+class WandbConfig:
+    enable: bool = True
+    project: str = "cs336-a1"
+    name: str = "train-ts"
+
+@dataclass
+class TrainConfig:
+    data: DataConfig = field(default_factory=DataConfig)
+    vocab: VocabConfig = field(default_factory=VocabConfig)
+    model: ModelConfig = field(default_factory=ModelConfig)
+    optim: OptimizerConfig = field(default_factory=OptimizerConfig)
+    train: TrainingConfig = field(default_factory=TrainingConfig)
+    wandb: WandbConfig = field(default_factory=WandbConfig)
+
+
+def get_default_config():
+    config = TrainConfig()
+    return config
