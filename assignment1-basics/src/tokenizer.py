@@ -135,11 +135,11 @@ class BPETokenizer:
             ) as pool:
             word_sub_counters = pool.map(_chunk_tokenization, tasks)
         t2 = time.time()
-        print(f"Tokenized chunks in {t2 - t1:.2f} seconds")
+        print(f"[__pre_tokenization] Tokenized chunks in {t2 - t1:.2f} seconds")
 
         word_counter = sum(word_sub_counters, Counter())
         t3 = time.time()
-        print(f"Combined chunk counters in {t3 - t2:.2f} seconds")
+        print(f"[__pre_tokenization] Combined chunk counters in {t3 - t2:.2f} seconds")
         return word_counter
 
     def __find_most_common_bytes_pair(self, word_counter: Counter) -> tuple[bytes, bytes]:
@@ -307,19 +307,20 @@ class BPETokenizer:
         t1 = time.time()
         self.__vocab_init(vocab_dict, special_tokens)
         t2 = time.time()
-        print(f"Initialized vocab in {t2 - t1:.2f} seconds")
+        print("")
+        print(f"1. Initialized vocab in {t2 - t1:.2f} seconds")
         word_counter = self.__pre_tokenization(file_path, special_tokens)
         t3 = time.time()
-        print(f"Pre-tokenized data in {t3 - t2:.2f} seconds")
+        print(f"2. Pre-tokenized data in {t3 - t2:.2f} seconds")
 
         # word_counter: word level counter, key: tuple of bytes representing pre-tokenized word
         # token_pair_counter: byte pair level counter, key: tuple of two bytes
         token_counter_result = self.__preprocess_token_counter(word_counter)
         t4 = time.time()
-        print(f"Preprocessed token counter in {t4 - t3:.2f} seconds")
+        print(f"3. Preprocessed token counter in {t4 - t3:.2f} seconds")
         self.__compute_bpe_merges(token_counter_result, vocab_dict, merges, vocab_size)
         t5 = time.time()
-        print(f"Computed BPE merges in {t5 - t4:.2f} seconds")
+        print(f"4. Computed BPE merges in {t5 - t4:.2f} seconds")
         print(f"[Total] Trained BPE in {t5 - t1:.2f} seconds")
 
         return vocab_dict, merges
