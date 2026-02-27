@@ -1,9 +1,10 @@
 import math
 import os
-import torch
-import tqdm
+import time
 
 import numpy as np
+import torch
+import tqdm
 
 from src.config import get_default_config
 from src.dataloader import DataLoader
@@ -49,11 +50,13 @@ def main():
     train_data_loader = DataLoader(
         data_path=cfg.data.train_bin_path,
         np_dtype=cfg.data.np_dtype,
+        device=device,
     )
 
     eval_data_loader = DataLoader(
         data_path=cfg.data.valid_bin_path,
         np_dtype=cfg.data.np_dtype,
+        device=device,
     )
 
     # init model
@@ -79,8 +82,18 @@ def main():
     )
 
     min_eval_loss = math.inf
+
+    def _sync():
+        # make CUDA timings accurate; no-op on CPU
+        if device.type == "cuda":
+            torch.cuda.synchronize()
+
     # training
     for it in tqdm.tqdm(range(cfg.train.max_step)):
+        step_start = time.perf_counter()
+
+        _sync()
+        t0 = time.perf_counter()
         lr = lr_cosine_schedule(
             it=it,
             max_learning_rate=cfg.optim.max_learning_rate,
@@ -90,16 +103,22 @@ def main():
         )
         for group in optimizer.param_groups:
             group["lr"] = lr
+        _sync()
+        t1 = time.perf_counter()
 
         x, y = train_data_loader.get_batch(
             batch_size=cfg.train.batch_size,
             context_length=cfg.data.context_length,
             device=device,
         )
+        _sync()
+        t2 = time.perf_counter()
 
         # forward propagation
         logits = model(x)
         loss = cross_entropy_loss(logits.view(-1, logits.size(-1)), y.view(-1))
+        _sync()
+        t3 = time.perf_counter()
 
         # clear gradient to None
         optimizer.zero_grad(set_to_none=True)
@@ -108,9 +127,33 @@ def main():
 
         if cfg.optim.max_l2_norm > 0:
             gradient_clipping(model.parameters(), cfg.optim.max_l2_norm)
+        _sync()
+        t4 = time.perf_counter()
 
         # update parameter
         optimizer.step()
+        _sync()
+        t5 = time.perf_counter()
+
+        step_end = t5
+
+        # per-step timing (seconds)
+        lr_time = t1 - t0
+        data_time = t2 - t1
+        fwd_time = t3 - t2
+        bwd_time = t4 - t3
+        opt_time = t5 - t4
+        total_time = step_end - step_start
+
+        print(
+            f"[step {it + 1:6d}] "
+            f"lr={lr_time*1000:7.2f}ms, "
+            f"data={data_time*1000:7.2f}ms, "
+            f"fwd+loss={fwd_time*1000:7.2f}ms, "
+            f"bwd+clip={bwd_time*1000:7.2f}ms, "
+            f"opt={opt_time*1000:7.2f}ms, "
+            f"total={total_time*1000:7.2f}ms"
+        )
 
         if (it + 1) % cfg.train.train_log_step == 0:
             train_tokens = cfg.train.batch_size * cfg.data.context_length * (it + 1)
