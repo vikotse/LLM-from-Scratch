@@ -320,6 +320,7 @@ class BPETokenizer:
         self.__compute_bpe_merges(token_counter_result, vocab_dict, merges, vocab_size)
         t5 = time.time()
         print(f"Computed BPE merges in {t5 - t4:.2f} seconds")
+        print(f"[Total] Trained BPE in {t5 - t1:.2f} seconds")
 
         return vocab_dict, merges
 
@@ -363,7 +364,7 @@ class BPETokenizer:
         print(f"  - of which selecting most common pair took {fts2:.2f} seconds")
         print(f"Updating word counter took {tts2:.2f} seconds")
         t4 = time.time()
-        print(f"Trained BPE in {t4 - t0:.2f} seconds")
+        print(f"[Total] Trained BPE in {t4 - t0:.2f} seconds")
 
         return vocab_dict, merges
 

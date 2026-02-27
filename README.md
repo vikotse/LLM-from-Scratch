@@ -20,18 +20,35 @@ Build a Large Language Model from scratch, following the Stanford CS336 assignme
 
 ### Directory structure
 
-The `assignment1-basics` directory contains the following key subdirectories and files:
+<details>
+<summary><code>assignment1-basics</code> directory structure</summary>
 
 - `cs336_basics/`: Original starter code and materials from the CS336 assignment.
 - `data/`: Downloaded datasets (TinyStories, OpenWebText samples, etc.).
 - `model/`: Tokenizer vocab/merges files and related model artifacts.
 - `runs/`: Training checkpoints and run artifacts.
 - `script/`: Utility and training scripts (e.g., tokenizer training, binarization, LM training).
-- `src/`: Main source code for the tokenizer, model, config, and training utilities.
+- `src/`: Main source code for the tokenizer, Transformer model, and training utilities:
+  - `config.py`: Dataclass-based configuration for data, model, optimizer, training loop, and WandB.
+  - `tokenizer.py`: BPE tokenizer implementation, training, and batched encoding helpers.
+  - `utils.py`: Shared utilities such as `Trie`, cross-entropy loss, batch sampling, and checkpoint save/load.
+  - `dataloader.py`: Memory-mapped data loader that yields training batches via `get_batch`.
+  - `attention.py`: Scaled dot-product attention, multi-head self-attention, and RoPE-based attention.
+  - `rope.py`: Rotary positional embedding (RoPE) implementation.
+  - `embedding.py`: Token embedding layer for mapping token IDs to vectors.
+  - `linear.py`: Custom linear layer used across the model.
+  - `softmax.py`: Numerically stable softmax implementation.
+  - `rmsnorm.py`: RMSNorm normalization layer.
+  - `swiglu.py`: SwiGLU feed-forward network and its wrapper `SwiGLUFFN`.
+  - `transformer.py`: Transformer block and `TransformerLM` language model composed from the above modules.
+  - `optimizer.py`: SGD, AdamW, learning-rate schedule, and gradient clipping utilities.
+  - `generate.py`: Text generation entry points using a trained language model.
+  - `tracker.py`: Simple experiment tracker integrating with Weights & Biases.
 - `tests/`: Unit tests and the adapter layer connecting your implementations to the autograder.
 - `wandb/`: Weights & Biases run logs (if logging is enabled).
 - `pyproject.toml` / `uv.lock`: Project configuration and dependency lockfile managed by `uv`.
 - `make_submission.sh`: Helper script for packaging and submitting your assignment.
+</details>
 
 ### Setup
 
@@ -56,6 +73,11 @@ Run unit tests for the components which have implemented:
    [assignment1-basics/tests/adapters.py](assignment1-basics/tests/adapters.py)):
    - Run all 48 tests: `uv run pytest`
    - Run a specific component test, e.g. `uv run pytest -k test_transformer_lm`
+
+<details>
+<summary>unit tests result</summary>
+
+</details>
 
 #### Training scripts
 
