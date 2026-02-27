@@ -65,7 +65,7 @@ def main():
         num_heads=cfg.model.num_heads,
         d_ff=cfg.model.d_ff,
         rope_theta=cfg.model.rope_theta,
-    )
+    ).to(device)
 
     # init optimizer
     optimizer = AdamW(
