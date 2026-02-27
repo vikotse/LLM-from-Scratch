@@ -34,17 +34,17 @@ class OptimizerConfig:
     eps: float = 1e-8
     max_learning_rate: float = 1e-3
     min_learning_rate: float = 1e-4
-    warmup_iters: int = 7
-    cosine_cycle_iters: int = 21
+    warmup_iters: int = 2000
+    cosine_cycle_iters: int = 10000
     max_l2_norm: float = 1.0
 
 @dataclass
 class TrainingConfig:
+    max_step: int = 10000
     batch_size: int = 16
-    max_step: int = 5
     runs_dir: str = "runs"
-    train_log_step: int = 1
-    eval_log_step: int = 1
+    train_log_step: int = 20
+    eval_log_step: int = 20
     seed: int = 42
 
 @dataclass

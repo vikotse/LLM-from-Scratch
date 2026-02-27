@@ -67,6 +67,8 @@ def main():
         rope_theta=cfg.model.rope_theta,
     ).to(device)
 
+    model = torch.compile(model)
+
     # init optimizer
     optimizer = AdamW(
         params=model.parameters(),
@@ -124,7 +126,7 @@ def main():
             logger.log({
                 "step": it + 1,
                 "valid/loss": eval_loss,
-                "val/ppl": math.exp(eval_loss),
+                "valid/ppl": math.exp(eval_loss),
             })
             if eval_loss < min_eval_loss:
                 min_eval_loss = eval_loss
