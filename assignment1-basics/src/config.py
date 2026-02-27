@@ -14,7 +14,7 @@ class DataConfig:
     train_bin_path: str = "data/TinyStoriesV2-GPT4-train.bin"
     valid_data_path: str = "data/TinyStoriesV2-GPT4-valid.txt"
     valid_bin_path: str = "data/TinyStoriesV2-GPT4-valid.bin"
-    batch_size: int = 8
+    batch_size: int = 16
     eval_batches: int = 10
     context_length: int = 256
     np_dtype: str = "uint16"
@@ -33,17 +33,18 @@ class OptimizerConfig:
     weight_decay: float = 0.01
     betas: tuple = field(default_factory=lambda: (0.9, 0.999))
     eps: float = 1e-8
-    max_learning_rate: float = 1
-    min_learning_rate: float = 1 * 0.1
+    max_learning_rate: float = 1e-3
+    min_learning_rate: float = 1e-4
     warmup_iters: int = 7
     cosine_cycle_iters: int = 21
+    max_l2_norm: float = 1.0
 
 @dataclass
 class TrainingConfig:
     max_step: int = 5
     runs_dir: str = "runs"
-    train_log_step: int = 2
-    eval_log_step: int = 2
+    train_log_step: int = 1
+    eval_log_step: int = 1
     seed: int = 42
 
 @dataclass
