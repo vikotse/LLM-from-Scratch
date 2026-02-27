@@ -20,9 +20,11 @@ class ScaledDotProductAttention(nn.Module):
     ) -> Float[Tensor, " ... queries d_v"]:
         d_k = Q.shape[-1]
         K_ = K.transpose(-1, -2)
-        logits = Q @ K_ / torch.sqrt(torch.tensor(d_k, dtype=Q.dtype))
+        scale = torch.sqrt(torch.tensor(d_k, dtype=Q.dtype, device=Q.device))
+        logits = Q @ K_ / scale
         if mask is not None:
-            logits = torch.where(mask, logits, float('-inf'))
+            mask = mask.to(logits.device)
+            logits = torch.where(mask, logits, float("-inf"))
         return softmax(logits, -1) @ V
 
 
@@ -51,7 +53,7 @@ class MultiHeadSelfAttention(nn.Module):
         V = rearrange(V, "... seq (num_heads d_k) -> ... num_heads seq d_k", d_k=d_k)
 
         seq_len = in_features.shape[-2]
-        mask = torch.tril(torch.ones(seq_len, seq_len)).bool()
+        mask = torch.tril(torch.ones(seq_len, seq_len, device=in_features.device)).bool()
         attn = self.scaled_dot_product_attention(Q, K, V, mask)
         attn = rearrange(attn, "... num_heads seq d_k -> ... seq (num_heads d_k)")
         return attn @ o_proj_weight.transpose(-1, -2)
@@ -98,7 +100,7 @@ class MultiHeadSelfAttentionWithRoPE(nn.Module):
         K = self.rope(K, token_positions)
 
         seq_len = x.shape[-2]
-        mask = torch.tril(torch.ones(seq_len, seq_len)).bool()
+        mask = torch.tril(torch.ones(seq_len, seq_len, device=x.device)).bool()
         attn = self.attn(Q, K, V, mask)
         attn = rearrange(attn, "... num_heads seq d_k -> ... seq (num_heads d_k)")
         return self.output_proj(attn)

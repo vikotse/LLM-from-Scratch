@@ -26,7 +26,7 @@ class TransformerBlock(nn.Module):
     def forward(self, x):
         batch_size = x.shape[0]
         seq_len = x.shape[1]
-        token_positions = torch.arange(seq_len).repeat(batch_size, 1)
+        token_positions = torch.arange(seq_len, device=x.device).repeat(batch_size, 1)
         x = x + self.attn(self.ln1(x), token_positions)
         x = x + self.ffn(self.ln2(x))
         return x
