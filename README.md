@@ -54,13 +54,11 @@ Build a Large Language Model from scratch, following the Stanford CS336 assignme
 
 #### Environment
 
-Prepare the environment with `uv` as described in  
-[assignment1 README – Environment](assignment1-basics/README.md#environment).
+Prepare the environment with `uv` as described in [assignment1 README – Environment](assignment1-basics/README.md#environment).
 
 #### Data
 
-Download the pretraining datasets as described in  
-[assignment1 README – Download Data](assignment1-basics/README.md#download-data).
+Download the pretraining datasets as described in [assignment1 README – Download Data](assignment1-basics/README.md#download-data).
 
 ### Quick Start
 
@@ -69,15 +67,17 @@ Download the pretraining datasets as described in
 Run unit tests for the components which have implemented:
 
 1. `cd assignment1-basics`
-2. Run unit tests (they call functions in  
-   [assignment1-basics/tests/adapters.py](assignment1-basics/tests/adapters.py)):
+2. Run unit tests (they call functions in [assignment1-basics/tests/adapters.py](assignment1-basics/tests/adapters.py)):
    - Run all 48 tests: `uv run pytest`
    - Run a specific component test, e.g. `uv run pytest -k test_transformer_lm`
 
-<details>
-<summary>unit tests result</summary>
+    <details>
+    <summary>Unit test results</summary>
 
-</details>
+    ![unit-test-results-1](pics/a1-ut1.png)
+    ![unit-test-results-2](pics/a1-ut2.png)
+
+    </details>
 
 #### Training scripts
 
