@@ -113,7 +113,7 @@ def get_batch(
 ):
     dataset_tensor = torch.from_numpy(dataset).to(device=device, dtype=torch.long)
     total_samples = len(dataset_tensor) - context_length
-    indices = torch.randperm(total_samples)[:batch_size]
+    indices = torch.randint(0, total_samples, (batch_size,))
     
     batch_seq_in, batch_seq_out = [], []
     for st_idx in indices:

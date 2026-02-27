@@ -7,7 +7,7 @@ import numpy as np
 
 from src.config import get_default_config
 from src.dataloader import DataLoader
-from src.optimizer import AdamW, lr_cosine_schedule
+from src.optimizer import AdamW, lr_cosine_schedule, gradient_clipping
 from src.tokenizer import BPETokenizer
 from src.tracker import ExperimentTracker
 from src.transformer import TransformerLM
@@ -103,6 +103,9 @@ def main():
         optimizer.zero_grad(set_to_none=True)
         # back propagation
         loss.backward()
+
+        if cfg.optim.max_l2_norm > 0:
+            gradient_clipping(model.parameters(), cfg.optim.max_l2_norm)
 
         # update parameter
         optimizer.step()
