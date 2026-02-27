@@ -38,8 +38,7 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     device = torch.device(device)
 
-    dir_path = os.path.dirname(cfg.train.runs_dir)
-    os.makedirs(dir_path, exist_ok=True)
+    os.makedirs(cfg.train.runs_dir, exist_ok=True)
     ckpt_path = os.path.join(cfg.train.runs_dir, "ckpt.pt")
     best_ckpt_path = os.path.join(cfg.train.runs_dir, "ckpt.best.pt")
 
