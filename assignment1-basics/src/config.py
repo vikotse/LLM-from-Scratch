@@ -14,7 +14,6 @@ class DataConfig:
     train_bin_path: str = "data/TinyStoriesV2-GPT4-train.bin"
     valid_data_path: str = "data/TinyStoriesV2-GPT4-valid.txt"
     valid_bin_path: str = "data/TinyStoriesV2-GPT4-valid.bin"
-    batch_size: int = 16
     eval_batches: int = 10
     context_length: int = 256
     np_dtype: str = "uint16"
@@ -41,6 +40,7 @@ class OptimizerConfig:
 
 @dataclass
 class TrainingConfig:
+    batch_size: int = 16
     max_step: int = 5
     runs_dir: str = "runs"
     train_log_step: int = 1

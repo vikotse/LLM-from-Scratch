@@ -19,7 +19,7 @@ def evaluate(cfg, model, data_loader, device):
     losses = []
     for _ in range(cfg.data.eval_batches):
         x, y = data_loader.get_batch(
-            batch_size=cfg.data.batch_size,
+            batch_size=cfg.train.batch_size,
             context_length=cfg.data.context_length,
             device=device
         )
@@ -90,7 +90,7 @@ def main():
             group["lr"] = lr
 
         x, y = train_data_loader.get_batch(
-            batch_size=cfg.data.batch_size,
+            batch_size=cfg.train.batch_size,
             context_length=cfg.data.context_length,
             device=device,
         )
@@ -111,11 +111,21 @@ def main():
         optimizer.step()
 
         if (it + 1) % cfg.train.train_log_step == 0:
-            logger.log({"step": it + 1, "train/loss": loss.item()})
+            train_tokens = cfg.train.batch_size * cfg.data.context_length * (it + 1)
+            logger.log({
+                "step": it + 1,
+                "train/loss": loss.item(),
+                "train/lr": lr,
+                "train/tokens": train_tokens,
+            })
 
         if (it + 1) % cfg.train.eval_log_step == 0:
             eval_loss = evaluate(cfg, model, eval_data_loader, device)
-            logger.log({"step": it + 1, "valid/loss": eval_loss})
+            logger.log({
+                "step": it + 1,
+                "valid/loss": eval_loss,
+                "val/ppl": math.exp(eval_loss),
+            })
             if eval_loss < min_eval_loss:
                 min_eval_loss = eval_loss
                 save_checkpoint(model, optimizer, it + 1, best_ckpt_path)
