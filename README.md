@@ -105,4 +105,10 @@ Run unit tests for the components which have implemented:
         </details>
     - Batch size variations: [8, 16, 32, 64]
 
-        `uv run python script/learning_rate_experiment.py`
+        `uv run python script/batch_size_experiment.py`
+        <details>
+        <summary>Batch size experiment results</summary>
+
+        ![batch-size-results](pics/a1-train-ts-bs-result.png)
+
+        </details>
