@@ -2,7 +2,7 @@ import torch
 
 from src.optimizer import SGD
 
-def run_lr_tuning(lr=1):
+def run_training(lr=1):
     weights = torch.nn.Parameter(5 * torch.randn((10, 10)))
     opt = SGD([weights], lr=lr)
     # lr = 1e1, 1e2 decay getting faster; lr = 1e3 getting diverge 
@@ -18,4 +18,4 @@ def run_lr_tuning(lr=1):
 if __name__ == '__main__':
     lrs = [1, 1e1, 1e2, 1e3]
     for lr in lrs:
-        run_lr_tuning(lr=lr)
+        run_training(lr=lr)

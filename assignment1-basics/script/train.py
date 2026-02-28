@@ -1,5 +1,6 @@
 import math
 import os
+import time
 
 import numpy as np
 import torch
@@ -43,7 +44,8 @@ def main():
     best_ckpt_path = os.path.join(cfg.train.runs_dir, "ckpt.best.pt")
 
     # init logger
-    logger = ExperimentTracker(cfg)
+    run_name = cfg.wandb.name + "_" + time.strftime('%Y%m%d_%H%M%S')
+    logger = ExperimentTracker(cfg, run_name)
 
     # load dataset
     train_data_loader = DataLoader(
@@ -137,6 +139,7 @@ def main():
 
     # save model
     save_checkpoint(model, optimizer, cfg.train.max_step, ckpt_path)
+    logger.close()
 
 
 if __name__ == "__main__":
