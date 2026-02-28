@@ -28,14 +28,14 @@ class ModelConfig:
 
 @dataclass
 class OptimizerConfig:
-    learning_rate: float = 1e-3
+    learning_rate: float = 1e-2
     weight_decay: float = 0.01
     betas: tuple = field(default_factory=lambda: (0.9, 0.999))
     eps: float = 1e-8
-    max_learning_rate: float = 1e-3
-    min_learning_rate: float = 1e-4
+    max_learning_rate: float = 1e-2
+    min_learning_rate: float = 1e-3
     warmup_iters: int = 2000
-    cosine_cycle_iters: int = 10000
+    cosine_cycle_iters: int = 8000
     max_l2_norm: float = 1.0
 
 @dataclass
