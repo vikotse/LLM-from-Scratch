@@ -2,7 +2,7 @@ import gc
 import torch
 
 from src.config import get_default_config
-from . import train
+from script import train
 
 
 def run_training(lr):
