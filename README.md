@@ -91,5 +91,18 @@ Run unit tests for the components which have implemented:
     `uv run python script/tokenize_and_bin.py`
 
 3. Train a Transformer LM on the TinyStories dataset.
+    - Use tokenized TinyStories dataset to train model
 
-    `uv run python script/train.py`
+        `uv run python script/train.py`
+    - Tune the learning rate: [1e-1, 5e-2, 2e-2, 1e-2, 5e-3, 2e-3, 1e-3]
+
+        `uv run python script/learning_rate_experiment.py`
+        <details>
+        <summary>Learning rate experiment results</summary>
+
+        ![learning-rate-results](pics/a1-train-ts-lr-result.png)
+
+        </details>
+    - Batch size variations: [8, 16, 32, 64]
+
+        `uv run python script/learning_rate_experiment.py`
