@@ -59,6 +59,47 @@ class MultiHeadSelfAttention(nn.Module):
         return attn @ o_proj_weight.transpose(-1, -2)
 
 
+class MultiHeadSelfAttentionWithNoPE(nn.Module):
+    def __init__(
+        self,
+        d_model: int,
+        num_heads: int,
+        theta: float,
+        max_seq_len: int,
+        device=None,
+    ):
+        super().__init__()
+        self.d_model = d_model
+        self.num_heads = num_heads
+        self.d_k = d_model // num_heads
+        self.attn = ScaledDotProductAttention()
+        self.q_proj = Linear(d_model, d_model, device=device)
+        self.k_proj = Linear(d_model, d_model, device=device)
+        self.v_proj = Linear(d_model, d_model, device=device)
+        self.output_proj = Linear(d_model, d_model, device=device)
+
+    def forward(
+        self,
+        x: Float[Tensor, " ... sequence_length d_in"],
+        token_positions: Int[Tensor, " ... sequence_length"] | None = None,
+    ) -> Float[Tensor, " ... sequence_length d_out"]:
+        #print("mhsa x.shape: ", x.shape)
+        Q = self.q_proj(x)
+        K = self.k_proj(x)
+        V = self.v_proj(x)
+        #print("Q1.shape: ", Q.shape)
+
+        Q = rearrange(Q, "... seq (num_heads d_k) -> ... num_heads seq d_k", d_k=self.d_k)
+        K = rearrange(K, "... seq (num_heads d_k) -> ... num_heads seq d_k", d_k=self.d_k)
+        V = rearrange(V, "... seq (num_heads d_k) -> ... num_heads seq d_k", d_k=self.d_k)
+
+        seq_len = x.shape[-2]
+        mask = torch.tril(torch.ones(seq_len, seq_len, device=x.device)).bool()
+        attn = self.attn(Q, K, V, mask)
+        attn = rearrange(attn, "... num_heads seq d_k -> ... seq (num_heads d_k)")
+        return self.output_proj(attn)
+
+
 class MultiHeadSelfAttentionWithRoPE(nn.Module):
     def __init__(
         self,
