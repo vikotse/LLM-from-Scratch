@@ -1,3 +1,4 @@
+import argparse
 import math
 import os
 import time
@@ -31,7 +32,16 @@ def evaluate(cfg, model, data_loader, device):
 
 
 def main():
-    cfg = get_default_config()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config",
+        type=str,
+        default=None,
+        help="'ts' or 'owt'",
+    )
+    args = parser.parse_args()
+
+    cfg = get_default_config(args.config)
 
     torch.manual_seed(cfg.train.seed)
 

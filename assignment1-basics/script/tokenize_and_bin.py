@@ -1,3 +1,4 @@
+import argparse
 import os
 from multiprocessing import Pool
 import tqdm
@@ -52,7 +53,16 @@ def tokenize_and_bin(cfg, data_path, bin_path):
     all_tokens.tofile(bin_path)
 
 def main():
-    cfg = get_default_config()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config",
+        type=str,
+        default=None,
+        help="'ts' or 'owt'",
+    )
+    args = parser.parse_args()
+
+    cfg = get_default_config(args.config)
 
     tokenize_and_bin(cfg, cfg.data.train_data_path, cfg.data.train_bin_path)
     tokenize_and_bin(cfg, cfg.data.valid_data_path, cfg.data.valid_bin_path)

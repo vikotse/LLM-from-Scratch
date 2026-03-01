@@ -1,3 +1,4 @@
+import argparse
 from collections import defaultdict
 import json
 
@@ -6,7 +7,16 @@ from src.tokenizer import BPETokenizer
 
 
 def main():
-    cfg = get_default_config()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config",
+        type=str,
+        default=None,
+        help="'ts' or 'owt'",
+    )
+    args = parser.parse_args()
+
+    cfg = get_default_config(args.config)
 
     vocab = defaultdict(bytes)
     merges = []
