@@ -2,6 +2,8 @@ import torch
 from torch import Tensor
 import torch.nn as nn
 from . import RMSNorm, MultiHeadSelfAttentionWithRoPE, SwiGLUFFN, Embedding, Linear
+from .generate import generate
+
 
 class TransformerBlock(nn.Module):
     def __init__(
@@ -46,6 +48,7 @@ class TransformerLM(nn.Module):
         dtype=None,
     ):
         super().__init__()
+        self.context_length = context_length
         param_dtype = (
             dtype
             if (
@@ -75,3 +78,20 @@ class TransformerLM(nn.Module):
             x = layer(x)
         logits = self.lm_head(self.ln_final(x))
         return logits
+
+    def generate(
+        self,
+        input_ids: Tensor,
+        stop_token_id: int,
+        max_new_tokens: int = 256,
+        temperature: float = 0.95,
+        top_p: float = 0.7,
+    ) -> Tensor:
+        return generate(
+            model=self,
+            input_ids=input_ids,
+            stop_token_id=stop_token_id,
+            max_new_tokens=max_new_tokens,
+            temperature=temperature,
+            top_p=top_p,
+        )
