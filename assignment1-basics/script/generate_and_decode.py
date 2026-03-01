@@ -51,9 +51,9 @@ def main():
     output_ids = model.generate(
         input_ids=input_ids,
         stop_token_id=stop_token_id,
-        max_new_tokens=50,
-        temperature=0.95,
-        top_p=0.7,
+        max_new_tokens=256,
+        temperature=0.6,
+        top_p=0.9,
     )
     print(tokenizer.decode(output_ids[0].tolist()))
     
