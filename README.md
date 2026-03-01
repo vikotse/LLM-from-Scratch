@@ -79,8 +79,6 @@ Run unit tests for the components which have implemented:
 
     </details>
 
-#### Training scripts
-
 #### Run
 1. Train a BPE tokenizer on the TinyStories dataset.
 
@@ -91,7 +89,8 @@ Run unit tests for the components which have implemented:
     `uv run python script/tokenize_and_bin.py`
 
 3. Train a Transformer LM on the TinyStories dataset.
-    - Use tokenized TinyStories dataset to train model
+
+    - Use tokenized TinyStories dataset to train model, and evaluate perplexity
 
         `uv run python script/train.py`
     - Tune the learning rate: [1e-1, 5e-2, 2e-2, 1e-2, 5e-3, 2e-3, 1e-3]
@@ -101,14 +100,74 @@ Run unit tests for the components which have implemented:
         <summary>Learning rate experiment results</summary>
 
         ![learning-rate-results](pics/a1-train-ts-lr-result.png)
+        optimal learning rate: 1e-2
 
         </details>
-    - Batch size variations: [8, 16, 32, 64]
+    - Batch size variations: [8, 16, 32, 64] (GPU memory limit)
 
         `uv run python script/batch_size_experiment.py`
         <details>
         <summary>Batch size experiment results</summary>
 
         ![batch-size-results](pics/a1-train-ts-bs-result.png)
+        optimal batch size: 64
 
         </details>
+
+4. Generate samples and evaluate perplexity using the trained Transformer LM.
+
+    - Generate and decode
+
+        `uv run python script/generate_and_decode.py`
+        <details>
+        <summary>Generate and decode results</summary>
+
+        **Input**
+        ```text
+        Once upon a time
+        ```
+
+        **Output**
+        ```text
+        Once upon a time, there was a small dog named Spot. Spot loved to play with his toy car. He would run around the park to play with. They all day, and the sun went on a tree. They liked to play with the toys with a ball.
+        One day, Tom and Sam were playing with the ball together. They played together and had lots of fun. At the end of the day, Tim and his friends were very happy. They played together all day, laughing and having fun.
+        <|endoftext|>
+        ```
+
+        </details>
+
+5. Train models on OpenWebText and submit your attained perplexities to a leaderboard.
+
+#### Other
+1. Tuning the learning rate with SGD example
+
+    `uv run python script/learning_rate_tuning_sgd.py`
+
+### Ablations results
+1. layer normalization
+    <details>
+    <summary><code>layer_norm_ablation</code>: Remove RMSNorm and train</summary>
+
+    ![remove-rmsnorm-learning-curve](pics/a1-ablation-remove-rmsnorm.png)
+
+    </details>
+    <details>
+    <summary><code>pre_norm_ablation</code>: Implement post-norm and train</summary>
+
+    ![pre-post-norm-learning-curve](pics/a1-ablation-pre-post-norm.png)
+
+    </details>
+2. position embeddings
+    <details>
+    <summary><code>no_pos_emb</code>: Implement NoPE</summary>
+
+    ![rope-nope-learning-curve](pics/a1-ablation-rope-nope.png)
+
+    </details>
+3. SwiGLU vs. SiLU
+    <details>
+    <summary><code>swiglu_ablation</code>: SwiGLU vs. SiLU</summary>
+
+    ![swiglu-silu-learning-curve](pics/a1-ablation-swiglu-silu.png)
+
+    </details>
