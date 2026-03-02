@@ -137,6 +137,19 @@ Run unit tests for the components which have implemented:
         </details>
 
 5. Train models on OpenWebText and submit your attained perplexities to a leaderboard.
+    - train tokenizer
+
+        `uv run python script/train_bpe_tokenizer.py --config owt`
+
+    - dataset tokenization
+
+        `uv run python script/tokenize_and_bin.py --config owt`
+
+    - pretrain model
+
+        `uv run python script/train.py --config owt`
+
+    official leaderboard: [Assignment 1 (Basics) Leaderboard](https://github.com/stanford-cs336/assignment1-basics-leaderboard/tree/master)
 
 #### Other
 1. Tuning the learning rate with SGD example
