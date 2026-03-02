@@ -15,7 +15,7 @@ class DataConfig:
     valid_data_path: str = "data/owt_valid.txt"
     valid_bin_path: str = "data/owt_valid.bin"
     eval_batches: int = 10
-    context_length: int = 256
+    context_length: int = 512
     np_dtype: str = "uint16"
 
 @dataclass
@@ -34,13 +34,13 @@ class OptimizerConfig:
     eps: float = 1e-8
     max_learning_rate: float = 1e-2
     min_learning_rate: float = 1e-3
-    warmup_iters: int = 2000
-    cosine_cycle_iters: int = 8000
+    warmup_iters: int = 8000
+    cosine_cycle_iters: int = 32000
     max_l2_norm: float = 1.0
 
 @dataclass
 class TrainingConfig:
-    max_step: int = 10000
+    max_step: int = 40000
     batch_size: int = 16
     runs_dir: str = "runs/owt"
     train_log_step: int = 20
