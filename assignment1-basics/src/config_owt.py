@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class VocabConfig:
-    vocab_size: int = 10000
+    vocab_size: int = 32000
     special_tokens: list[str] = field(default_factory=lambda: ["<|endoftext|>"])
     vocab_path: str = "model/owt_vocab.json"
     merges_path: str = "model/owt_merges.txt"
