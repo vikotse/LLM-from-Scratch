@@ -1,7 +1,7 @@
 import torch
 from torch import Tensor
 
-from . import softmax
+from .softmax import softmax
 
 
 def top_p_sampling(logits, top_p):

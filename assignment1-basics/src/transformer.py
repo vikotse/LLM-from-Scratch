@@ -1,8 +1,13 @@
 import torch
 from torch import Tensor
 import torch.nn as nn
-from . import RMSNorm, MultiHeadSelfAttentionWithRoPE, SwiGLUFFN, Embedding, Linear
+
+from .attention import MultiHeadSelfAttentionWithRoPE
+from .embedding import Embedding
 from .generate import generate
+from .linear import Linear
+from .rmsnorm import RMSNorm
+from .swiglu import SwiGLUFFN
 
 
 class TransformerBlock(nn.Module):

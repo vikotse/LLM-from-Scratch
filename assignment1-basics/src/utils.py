@@ -1,4 +1,3 @@
-import math
 import os
 import random
 
@@ -8,8 +7,6 @@ import numpy.typing as npt
 import torch
 from torch import Tensor
 from typing import IO, Any, BinaryIO
-
-from .softmax import softmax
 
 
 class TrieNode:

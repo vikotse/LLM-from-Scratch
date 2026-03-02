@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 from collections import defaultdict
 from collections.abc import Iterable
-import math
 from typing import IO, Any, BinaryIO
 
 import numpy.typing as npt
@@ -11,9 +10,17 @@ import torch
 from jaxtyping import Bool, Float, Int
 from torch import Tensor
 
-from src import BPETokenizer, Linear, Embedding, RMSNorm, SiLU, SwiGLU, RoPE, softmax, ScaledDotProductAttention, MultiHeadSelfAttention, MultiHeadSelfAttentionWithRoPE, TransformerBlock, TransformerLM
-from src.utils import cross_entropy_loss, get_batch, save_checkpoint, load_checkpoint
+from src.attention import ScaledDotProductAttention, MultiHeadSelfAttention, MultiHeadSelfAttentionWithRoPE
+from src.embedding import Embedding
+from src.linear import Linear
 from src.optimizer import AdamW, lr_cosine_schedule, gradient_clipping
+from src.rmsnorm import RMSNorm
+from src.rope import RoPE
+from src.softmax import softmax
+from src.swiglu import SiLU, SwiGLU
+from src.tokenizer import BPETokenizer
+from src.transformer import TransformerBlock, TransformerLM
+from src.utils import cross_entropy_loss, get_batch, save_checkpoint, load_checkpoint
 
 
 def run_linear(

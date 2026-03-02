@@ -1,4 +1,3 @@
-
 class ExperimentTracker:
     def __init__(self, cfg, name=None):
         self.enable = cfg.wandb.enable

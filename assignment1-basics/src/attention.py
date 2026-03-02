@@ -4,7 +4,10 @@ from jaxtyping import Bool, Float, Int
 import torch
 from torch import Tensor
 import torch.nn as nn
-from . import RoPE, softmax, Linear
+
+from .rope import RoPE
+from .softmax import softmax
+from .linear import Linear
 
 
 class ScaledDotProductAttention(nn.Module):
