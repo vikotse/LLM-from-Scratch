@@ -23,31 +23,34 @@ Build a Large Language Model from scratch, following the Stanford CS336 assignme
 <details>
 <summary><code>assignment1-basics</code> directory structure</summary>
 
-- `cs336_basics/`: Original starter code and materials from the CS336 assignment.
-- `data/`: Downloaded datasets (TinyStories, OpenWebText samples, etc.).
-- `model/`: Tokenizer vocab/merges files and related model artifacts.
-- `runs/`: Training checkpoints and run artifacts.
-- `script/`: Utility and training scripts (e.g., tokenizer training, binarization, LM training).
-- `src/`: Main source code for the tokenizer, Transformer model, and training utilities:
-  - `config.py`: Dataclass-based configuration for data, model, optimizer, training loop, and WandB.
-  - `tokenizer.py`: BPE tokenizer implementation, training, and batched encoding helpers.
-  - `utils.py`: Shared utilities such as `Trie`, cross-entropy loss, batch sampling, and checkpoint save/load.
-  - `dataloader.py`: Memory-mapped data loader that yields training batches via `get_batch`.
-  - `attention.py`: Scaled dot-product attention, multi-head self-attention, and RoPE-based attention.
-  - `rope.py`: Rotary positional embedding (RoPE) implementation.
-  - `embedding.py`: Token embedding layer for mapping token IDs to vectors.
-  - `linear.py`: Custom linear layer used across the model.
-  - `softmax.py`: Numerically stable softmax implementation.
-  - `rmsnorm.py`: RMSNorm normalization layer.
-  - `swiglu.py`: SwiGLU feed-forward network and its wrapper `SwiGLUFFN`.
-  - `transformer.py`: Transformer block and `TransformerLM` language model composed from the above modules.
-  - `optimizer.py`: SGD, AdamW, learning-rate schedule, and gradient clipping utilities.
-  - `generate.py`: Text generation entry points using a trained language model.
-  - `tracker.py`: Simple experiment tracker integrating with Weights & Biases.
-- `tests/`: Unit tests and the adapter layer connecting your implementations to the autograder.
-- `wandb/`: Weights & Biases run logs (if logging is enabled).
-- `pyproject.toml` / `uv.lock`: Project configuration and dependency lockfile managed by `uv`.
-- `make_submission.sh`: Helper script for packaging and submitting your assignment.
+```
+assignment1-basics/
+├── config/          # configs for TinyStories / OWT experiments
+├── cs336_basics/    # starter code and basic tokenizer examples
+├── data/            # TinyStories and OpenWebText data
+├── model/           # BPE vocab and merges used by the tokenizer
+├── runs/            # training runs and saved checkpoints
+├── script/          # scripts for training, tokenization, and experiments
+├── src/             # core tokenizer and transformer implementation
+│   ├── attention.py     # attention modules
+│   ├── config.py        # model & training configs
+│   ├── dataloader.py    # dataset & dataloader
+│   ├── embedding.py     # token & positional embeddings
+│   ├── generate.py      # text generation logic
+│   ├── linear.py        # linear layers
+│   ├── optimizer.py     # optimizer implementations
+│   ├── rmsnorm.py       # RMSNorm layer
+│   ├── rope.py          # rotary positional embeddings (RoPE)
+│   ├── softmax.py       # numerically stable softmax
+│   ├── swiglu.py        # SwiGLU feedforward components
+│   ├── tokenizer.py     # BPE tokenizer (train / encode / decode)
+│   ├── tracker.py       # training metrics & logging
+│   ├── transformer.py   # Transformer language model
+│   └── utils.py         # shared utilities
+├── tests/           # pytest tests and fixtures
+├── wandb/           # Weights & Biases logs and metadata
+└── ...
+```
 </details>
 
 ### Setup
@@ -159,20 +162,20 @@ Run unit tests for the components which have implemented:
 ### Ablations results
 1. layer normalization
     <details>
-    <summary><code>layer_norm_ablation</code>: Remove RMSNorm and train</summary>
+    <summary><code>layer_norm_ablation</code>: w vs. w/o RMSNorm</summary>
 
     ![remove-rmsnorm-learning-curve](pics/a1-ablation-remove-rmsnorm.png)
 
     </details>
     <details>
-    <summary><code>pre_norm_ablation</code>: Implement post-norm and train</summary>
+    <summary><code>pre_norm_ablation</code>: pre-norm vs. post-norm</summary>
 
     ![pre-post-norm-learning-curve](pics/a1-ablation-pre-post-norm.png)
 
     </details>
 2. position embeddings
     <details>
-    <summary><code>no_pos_emb</code>: Implement NoPE</summary>
+    <summary><code>no_pos_emb</code>: RoPE vs. NoPE</summary>
 
     ![rope-nope-learning-curve](pics/a1-ablation-rope-nope.png)
 
