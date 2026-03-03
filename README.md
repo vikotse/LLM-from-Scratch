@@ -4,6 +4,8 @@ Build a Large Language Model from scratch, following the Stanford CS336 assignme
 
 ## assignment1
 
+The official original repository: https://github.com/stanford-cs336/assignment1-basics/tree/main
+
 **What you will implement**
 
 1. Byte-pair encoding (BPE) tokenizer (§2)
@@ -151,6 +153,14 @@ Run unit tests for the components which have implemented:
     - pretrain model
 
         `uv run python script/train.py --config owt`
+
+    <details>
+    <summary>Training result</summary>
+
+    ![owt-training-result](pics/a1-train-owt.png)
+    wandb report: https://api.wandb.ai/links/viko/axveizyy
+
+    </details>
 
     official leaderboard: [Assignment 1 (Basics) Leaderboard](https://github.com/stanford-cs336/assignment1-basics-leaderboard/tree/master)
 
