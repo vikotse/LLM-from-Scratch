@@ -40,7 +40,7 @@ class OptimizerConfig:
 
 @dataclass
 class TrainingConfig:
-    max_step: int = 40000
+    max_step: int = 50000
     batch_size: int = 16
     runs_dir: str = "runs/owt"
     train_log_step: int = 20
