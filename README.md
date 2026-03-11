@@ -23,7 +23,7 @@ The official original repository: https://github.com/stanford-cs336/assignment1-
 ### Directory structure
 
 <details>
-<summary><code>assignment1-basics</code> directory structure</summary>
+<summary>📦 Click to expand <code>assignment1-basics</code> directory structure</summary>
 
 ```
 assignment1-basics/
@@ -77,7 +77,7 @@ Run unit tests for the components which have implemented:
    - Run a specific component test, e.g. `uv run pytest -k test_transformer_lm`
 
     <details>
-    <summary>Unit test results</summary>
+    <summary>📦 Click to expand: Unit test results</summary>
 
     ![unit-test-results-1](pics/a1-ut1.png)
     ![unit-test-results-2](pics/a1-ut2.png)
@@ -102,7 +102,7 @@ Run unit tests for the components which have implemented:
 
         `uv run python script/learning_rate_experiment.py`
         <details>
-        <summary>Learning rate experiment results</summary>
+        <summary>📦 Click to expand: Learning rate experiment results</summary>
 
         ![learning-rate-results](pics/a1-train-ts-lr-result.png)
         optimal learning rate: 1e-2
@@ -112,7 +112,7 @@ Run unit tests for the components which have implemented:
 
         `uv run python script/batch_size_experiment.py`
         <details>
-        <summary>Batch size experiment results</summary>
+        <summary>📦 Click to expand: Batch size experiment results</summary>
 
         ![batch-size-results](pics/a1-train-ts-bs-result.png)
         optimal batch size: 64
@@ -125,7 +125,7 @@ Run unit tests for the components which have implemented:
 
         `uv run python script/generate_and_decode.py`
         <details>
-        <summary>Generate and decode results</summary>
+        <summary>📦 Click to expand: Generate and decode results</summary>
 
         **Input**
         ```text
@@ -155,7 +155,7 @@ Run unit tests for the components which have implemented:
         `uv run python script/train.py --config owt`
 
     <details>
-    <summary>Training result</summary>
+    <summary>📦 Click to expand: Training result</summary>
 
     ![owt-training-result](pics/a1-train-owt.png)
     wandb report: https://api.wandb.ai/links/viko/axveizyy
@@ -172,27 +172,27 @@ Run unit tests for the components which have implemented:
 ### Ablations results
 1. layer normalization
     <details>
-    <summary><code>layer_norm_ablation</code>: w vs. w/o RMSNorm</summary>
+    <summary>📦 Click to expand: <code>layer_norm_ablation</code> -  w vs. w/o RMSNorm</summary>
 
     ![remove-rmsnorm-learning-curve](pics/a1-ablation-remove-rmsnorm.png)
 
     </details>
     <details>
-    <summary><code>pre_norm_ablation</code>: pre-norm vs. post-norm</summary>
+    <summary>📦 Click to expand: <code>pre_norm_ablation</code> - pre-norm vs. post-norm</summary>
 
     ![pre-post-norm-learning-curve](pics/a1-ablation-pre-post-norm.png)
 
     </details>
 2. position embeddings
     <details>
-    <summary><code>no_pos_emb</code>: RoPE vs. NoPE</summary>
+    <summary>📦 Click to expand: <code>no_pos_emb</code> - RoPE vs. NoPE</summary>
 
     ![rope-nope-learning-curve](pics/a1-ablation-rope-nope.png)
 
     </details>
 3. SwiGLU vs. SiLU
     <details>
-    <summary><code>swiglu_ablation</code>: SwiGLU vs. SiLU</summary>
+    <summary>📦 Click to expand: <code>swiglu_ablation</code> - SwiGLU vs. SiLU</summary>
 
     ![swiglu-silu-learning-curve](pics/a1-ablation-swiglu-silu.png)
 
