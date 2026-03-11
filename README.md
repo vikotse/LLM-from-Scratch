@@ -197,3 +197,6 @@ Run unit tests for the components which have implemented:
     ![swiglu-silu-learning-curve](pics/a1-ablation-swiglu-silu.png)
 
     </details>
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
