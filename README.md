@@ -172,7 +172,7 @@ Run unit tests for the components which have implemented:
 ### Ablations results
 1. layer normalization
     <details>
-    <summary>📦 Click to expand: <code>layer_norm_ablation</code> -  w/ vs. w/o RMSNorm</summary>
+    <summary>📦 Click to expand: <code>layer_norm_ablation</code> - w/ vs. w/o RMSNorm</summary>
 
     ![remove-rmsnorm-learning-curve](pics/a1-ablation-remove-rmsnorm.png)
 
